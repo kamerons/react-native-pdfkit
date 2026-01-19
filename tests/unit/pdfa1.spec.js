@@ -1,5 +1,10 @@
+import fs from 'fs';
+import path from 'path';
 import PDFDocument from '../../lib/document';
 import { logData, joinTokens } from './helpers';
+
+const robotoFontPath = path.join(__dirname, '../fonts/Roboto-Regular.ttf');
+const robotoFontData = fs.readFileSync(robotoFontPath);
 
 describe('PDF/A-1', () => {
   test('metadata is present', () => {
@@ -93,7 +98,7 @@ describe('PDF/A-1', () => {
     let doc = new PDFDocument(options);
     const data = logData(doc);
     doc.addPage();
-    doc.registerFont('Roboto', 'tests/fonts/Roboto-Regular.ttf');
+    doc.registerFont('Roboto', robotoFontData);
     doc.font('Roboto');
     doc.text('Text');
     doc.end();

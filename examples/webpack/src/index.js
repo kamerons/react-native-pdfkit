@@ -24,7 +24,7 @@ fetchFile(testImageURL)
 var initialFnCode = `// create a document
 var doc = new PDFDocument();
 
-doc.registerFont('Roboto', 'fonts/Roboto-Regular.ttf');
+doc.registerFont('Roboto', fs.readFileSync('fonts/Roboto-Regular.ttf'));
 
 // draw some text
 doc.fontSize(25).text('Here is some vector graphics...', 100, 80);

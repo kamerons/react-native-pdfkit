@@ -13,7 +13,7 @@ doc.info['Title'] = 'Test Document';
 doc.info['Author'] = 'Devon Govett';
 
 // Register a font name for use later
-doc.registerFont('Palatino', 'fonts/PalatinoBold.ttf');
+doc.registerFont('Palatino', fs.readFileSync('fonts/PalatinoBold.ttf'));
 
 // Set the font, draw some text, and embed an image
 doc

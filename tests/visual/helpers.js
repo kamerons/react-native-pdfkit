@@ -1,5 +1,27 @@
+import fs from 'fs';
+import path from 'path';
 import PDFDocument from '../../lib/document';
 import { pdf2png } from './pdf2png.js';
+import { getFontRegistry } from '../../lib/font/font_registry';
+
+// Register common fonts used in visual tests
+const fontsDir = path.join(__dirname, '../fonts');
+const fontFiles = [
+  'Roboto-Regular.ttf',
+  'Roboto-Italic.ttf',
+  'Roboto-Medium.ttf',
+  'Roboto-MediumItalic.ttf',
+];
+
+const registry = getFontRegistry();
+for (const fontFile of fontFiles) {
+  const fontPath = path.join(fontsDir, fontFile);
+  if (fs.existsSync(fontPath)) {
+    const fontData = fs.readFileSync(fontPath);
+    const fontName = `tests/fonts/${fontFile}`;
+    registry.registerCustomFont(fontName, fontData);
+  }
+}
 
 function runDocTest(options, fn) {
   if (typeof options === 'function') {

@@ -25,7 +25,7 @@ var struct = doc.struct('Document');
 doc.addStructure(struct);
 
 // Register a font name for use later
-doc.registerFont('Palatino', 'fonts/PalatinoBold.ttf');
+doc.registerFont('Palatino', fs.readFileSync('fonts/PalatinoBold.ttf'));
 
 // Set the font and draw some text
 struct.add(

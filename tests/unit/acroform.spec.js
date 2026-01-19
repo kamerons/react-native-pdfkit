@@ -1,7 +1,12 @@
+import fs from 'fs';
+import path from 'path';
 import PDFDocument from '../../lib/document';
 import PDFSecurity from '../../lib/security';
 import { logData, joinTokens } from './helpers';
 import PDFFontFactory from '../../lib/font_factory';
+
+const robotoFontPath = path.join(__dirname, '../fonts/Roboto-Regular.ttf');
+const robotoFontData = fs.readFileSync(robotoFontPath);
 
 // manual mock for PDFSecurity to ensure stored id will be the same accross different systems
 PDFSecurity.generateFileID = () => {
@@ -56,7 +61,7 @@ describe('acroform', () => {
   test('init no fonts', () => {
     doc.addPage();
     const docData = logData(doc);
-    PDFFontFactory.open(doc, 'tests/fonts/Roboto-Regular.ttf');
+    PDFFontFactory.open(doc, robotoFontData);
     doc.initForm();
     expect(docData.length).toBe(0);
   });
@@ -98,7 +103,7 @@ describe('acroform', () => {
     ];
 
     const docData = logData(doc);
-    doc.registerFont('myfont1', 'tests/fonts/Roboto-Regular.ttf');
+    doc.registerFont('myfont1', robotoFontData);
 
     doc.font('Courier-Bold'); // establishes the default font
     doc.initForm();
@@ -262,7 +267,7 @@ describe('acroform', () => {
         '>>',
       'endobj',
     ];
-    doc.registerFont('myfont1', 'tests/fonts/Roboto-Regular.ttf');
+    doc.registerFont('myfont1', robotoFontData);
     doc.initForm();
     const docData = logData(doc);
     let opts = {

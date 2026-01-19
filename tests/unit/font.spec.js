@@ -1,14 +1,16 @@
+import fs from 'fs';
+import path from 'path';
 import PDFDocument from '../../lib/document';
 import PDFFontFactory from '../../lib/font_factory';
 import { logData } from './helpers';
 
+const robotoFontPath = path.join(__dirname, '../fonts/Roboto-Regular.ttf');
+const robotoFontData = fs.readFileSync(robotoFontPath);
+
 describe('EmbeddedFont', () => {
   test('no fontLayoutCache option', () => {
     const document = new PDFDocument();
-    const font = PDFFontFactory.open(
-      document,
-      'tests/fonts/Roboto-Regular.ttf',
-    );
+    const font = PDFFontFactory.open(document, robotoFontData);
     const runSpy = jest.spyOn(font, 'layoutRun');
 
     font.layout('test');
@@ -21,10 +23,7 @@ describe('EmbeddedFont', () => {
 
   test('fontLayoutCache = false', () => {
     const document = new PDFDocument({ fontLayoutCache: false });
-    const font = PDFFontFactory.open(
-      document,
-      'tests/fonts/Roboto-Regular.ttf',
-    );
+    const font = PDFFontFactory.open(document, robotoFontData);
     const runSpy = jest.spyOn(font, 'layoutRun');
 
     font.layout('test');
@@ -38,12 +37,7 @@ describe('EmbeddedFont', () => {
   describe('emebed', () => {
     test('sets BaseName based on font id and postscript name', () => {
       const document = new PDFDocument();
-      const font = PDFFontFactory.open(
-        document,
-        'tests/fonts/Roboto-Regular.ttf',
-        undefined,
-        'F1099',
-      );
+      const font = PDFFontFactory.open(document, robotoFontData, undefined, 'F1099');
       const dictionary = {
         end: () => {},
       };
@@ -57,12 +51,7 @@ describe('EmbeddedFont', () => {
   describe('toUnicodeMap', () => {
     test('bfrange lines should not cross highcode boundary', () => {
       const doc = new PDFDocument({ compress: false });
-      const font = PDFFontFactory.open(
-        doc,
-        'tests/fonts/Roboto-Regular.ttf',
-        undefined,
-        'F1099',
-      );
+      const font = PDFFontFactory.open(doc, robotoFontData, undefined, 'F1099');
 
       // 398 different glyphs
       font.encode('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
@@ -101,12 +90,7 @@ describe('EmbeddedFont', () => {
 
     test('beginbfrange count should match actual number of ranges', () => {
       const doc = new PDFDocument({ compress: false });
-      const font = PDFFontFactory.open(
-        doc,
-        'tests/fonts/Roboto-Regular.ttf',
-        undefined,
-        'F1099',
-      );
+      const font = PDFFontFactory.open(doc, robotoFontData, undefined, 'F1099');
 
       // Generate more than 256 unique characters to trigger multiple bfrange entries
       // Each chunk is 256 characters, so we need >256 to get multiple ranges
@@ -159,12 +143,7 @@ describe('EmbeddedFont', () => {
 
     test('beginbfrange count should be 1 for fonts with <=256 characters', () => {
       const doc = new PDFDocument({ compress: false });
-      const font = PDFFontFactory.open(
-        doc,
-        'tests/fonts/Roboto-Regular.ttf',
-        undefined,
-        'F1099',
-      );
+      const font = PDFFontFactory.open(doc, robotoFontData, undefined, 'F1099');
 
       // Generate exactly 256 characters
       const chars = [];
