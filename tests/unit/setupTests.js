@@ -4,6 +4,7 @@ import { toMatchImageSnapshot } from 'jest-image-snapshot';
 import fs from 'fs';
 import path from 'path';
 import { getFontRegistry } from '../../lib/font/font_registry';
+import { getIccRegistry } from '../../lib/icc_registry';
 
 expect.extend(toContainChunk);
 expect.extend(toContainText);
@@ -30,3 +31,8 @@ for (const file of sortedFiles) {
 }
 
 getFontRegistry().registerStandardFonts(fonts);
+
+// Register ICC profile for PDFA tests
+const iccProfilePath = path.join(__dirname, '../data/sRGB_IEC61966_2_1.icc');
+const iccProfile = fs.readFileSync(iccProfilePath);
+getIccRegistry().registerICCProfile(iccProfile);
