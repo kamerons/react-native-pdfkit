@@ -3,8 +3,15 @@ import toContainText from './toContainText';
 import { toMatchImageSnapshot } from 'jest-image-snapshot';
 import fs from 'fs';
 import path from 'path';
+import zlib from 'zlib';
+import stream from 'stream';
+import { Buffer } from 'buffer';
+import { init } from '../../lib/document';
 import { getFontRegistry } from '../../lib/font/font_registry';
 import { getIccRegistry } from '../../lib/icc_registry';
+
+// Initialize adapters with Node.js implementations
+init({ fs, zlib, stream, Buffer });
 
 // Ensure globalThis is available for pdfjs-dist webpack bundle
 if (typeof globalThis === 'undefined') {

@@ -1,8 +1,14 @@
 import fs from 'fs';
 import path from 'path';
-import PDFDocument from '../../lib/document';
+import zlib from 'zlib';
+import stream from 'stream';
+import { Buffer } from 'buffer';
+import PDFDocument, { init } from '../../lib/document';
 import { pdf2png } from './pdf2png.js';
 import { getFontRegistry } from '../../lib/font/font_registry';
+
+// Initialize adapters with Node.js implementations
+init({ fs, zlib, stream, Buffer });
 
 // Register common fonts used in visual tests
 const fontsDir = path.join(__dirname, '../fonts');
