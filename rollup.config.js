@@ -1,6 +1,8 @@
 import pkg from './package.json';
 import { babel } from '@rollup/plugin-babel';
 import copy from 'rollup-plugin-copy';
+import json from '@rollup/plugin-json';
+import commonjs from '@rollup/plugin-commonjs';
 
 const external = [
   'stream',
@@ -32,6 +34,8 @@ export default [
       interop: false
     },
     plugins: [
+      json(),
+      commonjs(),
       babel({
         babelHelpers: 'bundled',
         babelrc: false,
@@ -50,7 +54,8 @@ export default [
       }),
       copy({
         targets: [
-          { src: ['lib/font/data/*.afm', 'lib/mixins/data/*.icc'], dest: 'js/data' },
+          // Font files removed - caller provides them via init()
+          // { src: ['lib/font/data/*.afm', 'lib/mixins/data/*.icc'], dest: 'js/data' },
         ]
       })
     ]
@@ -66,6 +71,8 @@ export default [
       sourcemap: true
     },
     plugins: [
+      json(),
+      commonjs(),
       babel({
         babelHelpers: 'bundled',
         babelrc: false,
