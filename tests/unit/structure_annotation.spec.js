@@ -13,7 +13,7 @@ describe('PDFAnnotationReference', () => {
     });
   });
 
-  test('should add annotation reference to structure element with StructParent', () => {
+  test('should add annotation reference to structure element with StructParent', async () => {
     const docData = logData(document);
 
     const linkElement = document.struct('Link');
@@ -26,16 +26,16 @@ describe('PDFAnnotationReference', () => {
     });
 
     linkElement.add(new PDFAnnotationReference(annotRef));
-    linkElement.end();
-    annotRef.end();
-    document.end();
+    await linkElement.end();
+    await annotRef.end();
+    await document.end();
 
     const dataStr = docData.join('\n');
     expect(dataStr).toContain('/Type /OBJR');
     expect(dataStr).toContain('/StructParent 0');
   });
 
-  test('should handle multiple annotations with different StructParent values', () => {
+  test('should handle multiple annotations with different StructParent values', async () => {
     const docData = logData(document);
 
     const section = document.struct('Sect');
@@ -52,12 +52,12 @@ describe('PDFAnnotationReference', () => {
     link1.add(new PDFAnnotationReference(annotRef1));
     link2.add(new PDFAnnotationReference(annotRef2));
 
-    link1.end();
-    link2.end();
-    section.end();
-    annotRef1.end();
-    annotRef2.end();
-    document.end();
+    await link1.end();
+    await link2.end();
+    await section.end();
+    await annotRef1.end();
+    await annotRef2.end();
+    await document.end();
 
     const dataStr = docData.join('\n');
     expect(dataStr).toContain('/StructParent 0');

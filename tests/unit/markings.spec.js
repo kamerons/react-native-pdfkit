@@ -12,7 +12,7 @@ describe('Markings', () => {
   });
 
   describe('marked content', () => {
-    test('non-structural', () => {
+    test('non-structural', async () => {
       const docData = logData(document);
 
       const stream = Buffer.from(
@@ -25,7 +25,7 @@ EMC
 
       document.markContent('Span');
       document.endMarkedContent();
-      document.end();
+      await document.end();
 
       expect(docData).toContainChunk([
         `5 0 obj`,
@@ -39,7 +39,7 @@ EMC
       ]);
     });
 
-    test('structural', () => {
+    test('structural', async () => {
       const docData = logData(document);
 
       const stream = Buffer.from(
@@ -60,7 +60,7 @@ EMC
       document.endMarkedContent();
       const structureContent2 = document.markStructureContent('Span');
       document.endMarkedContent();
-      document.end();
+      await document.end();
 
       expect(structureContent1.refs.length).toEqual(1);
       expect(structureContent1.refs[0].pageRef.toString()).toEqual('7 0 R');
@@ -80,7 +80,7 @@ EMC
       ]);
     });
 
-    test('marked using closure', () => {
+    test('marked using closure', async () => {
       const docData = logData(document);
 
       const stream = Buffer.from(
@@ -99,7 +99,7 @@ EMC
 
       document.addStructure(document.struct('Span', () => {}));
       document.addStructure(document.struct('Span', () => {}));
-      document.end();
+      await document.end();
 
       expect(docData).toContainChunk([
         `5 0 obj`,
@@ -113,7 +113,7 @@ EMC
       ]);
     });
 
-    test('with options', () => {
+    test('with options', async () => {
       const docData = logData(document);
 
       const stream = Buffer.from(
@@ -148,7 +148,7 @@ EMC
         expanded: 'Greetings, terrestrial sphere! ',
       });
       document.endMarkedContent();
-      document.end();
+      await document.end();
 
       expect(docData).toContainChunk([
         `5 0 obj`,
@@ -162,7 +162,7 @@ EMC
       ]);
     });
 
-    test('automatically closed', () => {
+    test('automatically closed', async () => {
       const docData = logData(document);
 
       const stream = Buffer.from(
@@ -203,7 +203,7 @@ EMC
       document.markContent('Artifact');
       document.markStructureContent('P');
       document.markStructureContent('P');
-      document.end();
+      await document.end();
 
       expect(docData).toContainChunk([
         `5 0 obj`,
@@ -217,7 +217,7 @@ EMC
       ]);
     });
 
-    test('continued on a new page', () => {
+    test('continued on a new page', async () => {
       const docData = logData(document);
 
       const stream = Buffer.from(
@@ -236,7 +236,7 @@ EMC
       document.markContent('Span');
       document.text('on the first page');
       document.continueOnNewPage();
-      document.end();
+      await document.end();
 
       expect(structureContent.refs.length).toEqual(2);
       expect(structureContent.refs[0].pageRef.toString()).toEqual('7 0 R');
@@ -257,7 +257,7 @@ EMC
   });
 
   describe('structure tree', () => {
-    test('atomically constructed', () => {
+    test('atomically constructed', async () => {
       const docData = logData(document);
 
       const pContent1 = document.markStructureContent('P');
@@ -278,7 +278,7 @@ EMC
       ]);
       document.addStructure(section1).addStructure(section2);
 
-      document.end();
+      await document.end();
 
       expect(docData).toContainChunk([
         `3 0 obj`,
@@ -328,7 +328,7 @@ EMC
       expect(docData).toContainChunk([`9 0 obj`, `<<\n>>`, `endobj`]);
     });
 
-    test('incrementally constructed', () => {
+    test('incrementally constructed', async () => {
       const docData = logData(document);
 
       const pContent1 = document.markStructureContent('P');
@@ -350,7 +350,7 @@ EMC
       p2.add(pContent3);
       section2.add(p2);
 
-      document.end();
+      await document.end();
 
       expect(docData).toContainChunk([
         `3 0 obj`,
@@ -400,7 +400,7 @@ EMC
       expect(docData).toContainChunk([`9 0 obj`, `<<\n>>`, `endobj`]);
     });
 
-    test('constructed with closures', () => {
+    test('constructed with closures', async () => {
       const docData = logData(document);
 
       const section1 = document.struct('Sect');
@@ -417,7 +417,7 @@ EMC
       section2.add(p2);
       document.addStructure(section2);
 
-      document.end();
+      await document.end();
 
       expect(docData).toContainChunk([
         `3 0 obj`,
@@ -471,7 +471,7 @@ EMC
       expect(docData).toContainChunk([`13 0 obj`, `<<\n>>`, `endobj`]);
     });
 
-    test('with options', () => {
+    test('with options', async () => {
       const docData = logData(document);
 
       document.addStructure(
@@ -484,7 +484,7 @@ EMC
         }),
       );
 
-      document.end();
+      await document.end();
 
       expect(docData).toContainChunk([
         `8 0 obj`,
@@ -526,7 +526,7 @@ EMC
       }).toThrow();
     });
 
-    test('_currentStructureElement tracking with closures', () => {
+    test('_currentStructureElement tracking with closures', async () => {
       const section = document.struct('Sect');
       document.addStructure(section);
 
@@ -538,14 +538,14 @@ EMC
 
       section.add(paragraph);
       section.end();
-      document.end();
+      await document.end();
 
       expect(capturedStructElement).toBe(paragraph);
     });
   });
 
   describe('accessible document', () => {
-    test('identified as accessible', () => {
+    test('identified as accessible', async () => {
       document = new PDFDocument({
         info: {
           CreationDate: new Date(Date.UTC(2018, 1, 1)),
@@ -560,7 +560,7 @@ EMC
 
       const docData = logData(document);
 
-      document.end();
+      await document.end();
 
       expect(docData).toContainChunk([`3 0 obj`, /\/Lang \(en-AU\)/, `endobj`]);
       expect(docData).toContainChunk([`3 0 obj`, /\/MarkInfo 5 0 R/, `endobj`]);
@@ -607,7 +607,7 @@ EMC
   });
 
   describe('untagged document', () => {
-    test('taborder not set for unmarked content', () => {
+    test('taborder not set for unmarked content', async () => {
       document = new PDFDocument({
         info: {
           CreationDate: new Date(Date.UTC(2018, 1, 1)),
@@ -622,7 +622,7 @@ EMC
 
       const docData = logData(document);
 
-      document.end();
+      await document.end();
 
       expect(docData).toContainChunk([`3 0 obj`, /\/Lang \(en-AU\)/, `endobj`]);
       expect(docData).not.toContainChunk([
@@ -635,7 +635,7 @@ EMC
   });
 
   describe('text integration', () => {
-    test('adds paragraphs to structure', () => {
+    test('adds paragraphs to structure', async () => {
       const docData = logData(document);
 
       const stream = Buffer.from(
@@ -671,7 +671,7 @@ EMC
       const section = document.struct('Sect');
       document.addStructure(section);
       document.text('Paragraph 1\nParagraph 2', { structParent: section });
-      document.end();
+      await document.end();
 
       expect(docData).toContainChunk([
         `5 0 obj`,
@@ -700,7 +700,7 @@ EMC
       ]);
     });
 
-    test('adds list items to structure', () => {
+    test('adds list items to structure', async () => {
       const docData = logData(document);
 
       const stream = Buffer.from(
@@ -758,7 +758,7 @@ EMC
       const list = document.struct('List');
       document.addStructure(list);
       document.list(['Item 1', 'Item 2'], { structParent: list });
-      document.end();
+      await document.end();
 
       expect(docData).toContainChunk([
         `5 0 obj`,

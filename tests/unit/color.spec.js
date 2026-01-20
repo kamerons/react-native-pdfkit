@@ -2,7 +2,7 @@ import PDFDocument from '../../lib/document';
 import { logData } from './helpers';
 
 describe('color', function () {
-  test('normalize', function () {
+  test('normalize', async function () {
     const doc = new PDFDocument();
 
     expect(doc._normalizeColor('#FFF')).toEqual([1, 1, 1]);
@@ -27,7 +27,7 @@ describe('color', function () {
     ]);
   });
 
-  test('normalize with spot color', function () {
+  test('normalize with spot color', async function () {
     const doc = new PDFDocument();
     doc.addSpotColor('PANTONE 123 C', 0.1, 0.2, 0.3, 0.4);
 
@@ -36,12 +36,12 @@ describe('color', function () {
     expect(color.values).toEqual([0.1, 0.2, 0.3, 0.4]);
   });
 
-  test('spot color', function () {
+  test('spot color', async function () {
     const doc = new PDFDocument();
     const data = logData(doc);
     doc.addSpotColor('PANTONE185C', 0, 100, 78, 9);
     doc.fillColor('PANTONE185C').text('This text uses spot color!');
-    doc.end();
+    await doc.end();
 
     expect(data).toContainChunk([
       `6 0 obj`,

@@ -12,11 +12,11 @@ describe('Text', () => {
   });
 
   describe('text', () => {
-    test('with simple content', () => {
+    test('with simple content', async () => {
       const docData = logData(document);
 
       document.text('simple text');
-      document.end();
+      await document.end();
 
       expect(docData).toContainText({ text: 'simple text' });
     });
@@ -26,7 +26,7 @@ describe('Text', () => {
       document.text('simple text', { destination: 'anchor' });
     });
 
-    test('with content ending after page right margin', () => {
+    test('with content ending after page right margin', async () => {
       const docData = logData(document);
 
       const textStream = Buffer.from(
@@ -44,7 +44,7 @@ Q
       );
 
       document.text('simple text', 600, 20);
-      document.end();
+      await document.end();
 
       expect(docData).toContainChunk([
         `5 0 obj`,
@@ -58,7 +58,7 @@ Q
       ]);
     });
 
-    test('with line too thin to contain a single character', () => {
+    test('with line too thin to contain a single character', async () => {
       const docData = logData(document);
 
       const text = 'simple text';
@@ -163,7 +163,7 @@ Q
       });
 
       document.text(text, 10, 10, { width: 2 });
-      document.end();
+      await document.end();
 
       expect(docData).toContainChunk([
         `5 0 obj`,
@@ -177,7 +177,7 @@ Q
       ]);
     });
 
-    test('bounded text precision - issue #1611', () => {
+    test('bounded text precision - issue #1611', async () => {
       const docData = logData(document);
       const text = 'New york';
       const bounds = document.boundsOfString(text);
@@ -188,7 +188,7 @@ Q
         height: bounds.height,
       });
 
-      document.end();
+      await document.end();
 
       expect(docData).toContainText({ text });
     });
@@ -203,7 +203,7 @@ Q
       });
     });
 
-    test('should auto-link text inside Link structure element', () => {
+    test('should auto-link text inside Link structure element', async () => {
       const docData = logData(document);
 
       const linkElement = document.struct('Link', () => {
@@ -214,28 +214,28 @@ Q
 
       document.addStructure(linkElement);
       linkElement.end();
-      document.end();
+      await document.end();
 
       const dataStr = docData.join('\n');
       expect(dataStr).toContain('/S /Link');
       expect(dataStr).toContain('/StructParent');
     });
 
-    test('should not add StructParent outside Link structure', () => {
+    test('should not add StructParent outside Link structure', async () => {
       const docData = logData(document);
 
       document.text('Click here', 100, 100, {
         link: 'http://example.com',
       });
 
-      document.end();
+      await document.end();
 
       const dataStr = docData.join('\n');
       expect(dataStr).toContain('/Subtype /Link');
       expect(dataStr).not.toContain('/StructParent');
     });
 
-    test('should not leak link options to subsequent structure elements with continued text', () => {
+    test('should not leak link options to subsequent structure elements with continued text', async () => {
       const docData = logData(document);
 
       const paragraph = document.struct('P');
@@ -266,7 +266,7 @@ Q
       );
 
       paragraph.end();
-      document.end();
+      await document.end();
 
       const dataStr = docData.join('\n');
 

@@ -102,10 +102,10 @@ describe('Annotations', () => {
   });
 
   describe('fileAnnotation', () => {
-    test('creating a fileAnnotation', () => {
+    test('creating a fileAnnotation', async () => {
       const docData = logData(document);
 
-      document.fileAnnotation(100, 100, 20, 20, {
+      await document.fileAnnotation(100, 100, 20, 20, {
         src: Buffer.from('example text'),
         name: 'file.txt',
       });
@@ -123,10 +123,10 @@ describe('Annotations', () => {
       ]);
     });
 
-    test("using the file's description", () => {
+    test("using the file's description", async () => {
       const docData = logData(document);
 
-      document.fileAnnotation(100, 100, 20, 20, {
+      await document.fileAnnotation(100, 100, 20, 20, {
         src: Buffer.from('example text'),
         name: 'file.txt',
         description: 'file description',
@@ -146,10 +146,10 @@ describe('Annotations', () => {
       ]);
     });
 
-    test("overriding the file's description", () => {
+    test("overriding the file's description", async () => {
       const docData = logData(document);
 
-      document.fileAnnotation(
+      await document.fileAnnotation(
         100,
         100,
         20,
@@ -180,7 +180,7 @@ describe('Annotations', () => {
   });
 
   describe('annotations with structure parent', () => {
-    test('should add structParent to link annotations', () => {
+    test('should add structParent to link annotations', async () => {
       document = new PDFDocument({
         info: { CreationDate: new Date(Date.UTC(2018, 1, 1)) },
         compress: false,
@@ -197,18 +197,18 @@ describe('Annotations', () => {
       });
 
       linkElement.end();
-      document.end();
+      await document.end();
 
       const dataStr = docData.join('\n');
       expect(dataStr).toContain('/StructParent 0');
       expect(dataStr).toContain('/Contents ()');
     });
 
-    test('should work without structParent (backwards compatibility)', () => {
+    test('should work without structParent (backwards compatibility)', async () => {
       const docData = logData(document);
 
       document.link(100, 100, 100, 20, 'http://example.com');
-      document.end();
+      await document.end();
 
       const dataStr = docData.join('\n');
       expect(dataStr).toContain('/Subtype /Link');

@@ -16,9 +16,9 @@ describe('Document trailer', () => {
     });
   });
 
-  test('', () => {
+  test('', async () => {
     const docData = logData(document);
-    document.end();
+    await document.end();
     expect(docData).toContainChunk([
       '8 0 obj',
       '<<\n/Producer 9 0 R\n/Creator 10 0 R\n/CreationDate 11 0 R\n>>',
@@ -32,22 +32,22 @@ describe('Document trailer', () => {
     ]);
   });
 
-  test('written empty data of destinations', () => {
+  test('written empty data of destinations', async () => {
     const docData = logData(document);
-    document.end();
+    await document.end();
     expect(docData).toContainChunk([
       '2 0 obj',
       '<<\n/Dests <<\n  /Names [\n]\n>>\n>>',
     ]);
   });
 
-  test('written data of destinations', () => {
+  test('written data of destinations', async () => {
     const docData = logData(document);
     document.addNamedDestination('LINK1');
     document.addNamedDestination('LINK2', 'FitH', 100);
     document.addNamedDestination('LINK3', 'XYZ', 36, 36, 50);
     document.goTo(10, 10, 100, 20, 'LINK1');
-    document.end();
+    await document.end();
 
     expect(docData).toContainChunk([
       '2 0 obj',

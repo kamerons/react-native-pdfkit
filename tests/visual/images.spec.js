@@ -2,7 +2,7 @@ import { runDocTest } from './helpers';
 
 describe('images', function () {
   test('orientation', function () {
-    return runDocTest(function (doc) {
+    return runDocTest(async function (doc) {
       doc.font('tests/fonts/Roboto-Regular.ttf');
       doc.fill('black');
       doc.fillColor('black');
@@ -22,7 +22,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-1.jpeg', 40, 44.0625, {
+      await doc.image('tests/images/orientation-1.jpeg', 40, 44.0625, {
         height: 80,
         ignoreOrientation: true,
       });
@@ -31,7 +31,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-1.jpeg', 320, 44.0625, {
+      await doc.image('tests/images/orientation-1.jpeg', 320, 44.0625, {
         height: 80,
       });
 
@@ -39,7 +39,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-2.jpeg', 40, 138.125, {
+      await doc.image('tests/images/orientation-2.jpeg', 40, 138.125, {
         height: 80,
         ignoreOrientation: true,
       });
@@ -48,7 +48,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-2.jpeg', 320, 138.125, {
+      await doc.image('tests/images/orientation-2.jpeg', 320, 138.125, {
         height: 80,
       });
 
@@ -56,7 +56,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-3.jpeg', 40, 232.1875, {
+      await doc.image('tests/images/orientation-3.jpeg', 40, 232.1875, {
         height: 80,
         ignoreOrientation: true,
       });
@@ -65,7 +65,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-3.jpeg', 320, 232.1875, {
+      await doc.image('tests/images/orientation-3.jpeg', 320, 232.1875, {
         height: 80,
       });
 
@@ -73,7 +73,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-4.jpeg', 40, 326.25, {
+      await doc.image('tests/images/orientation-4.jpeg', 40, 326.25, {
         height: 80,
         ignoreOrientation: true,
       });
@@ -82,7 +82,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-4.jpeg', 320, 326.25, {
+      await doc.image('tests/images/orientation-4.jpeg', 320, 326.25, {
         height: 80,
       });
 
@@ -90,7 +90,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-5.jpeg', 40, 420.3125, {
+      await doc.image('tests/images/orientation-5.jpeg', 40, 420.3125, {
         height: 80,
         ignoreOrientation: true,
       });
@@ -99,7 +99,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-5.jpeg', 320, 420.3125, {
+      await doc.image('tests/images/orientation-5.jpeg', 320, 420.3125, {
         height: 80,
       });
 
@@ -107,7 +107,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-6.jpeg', 40, 514.375, {
+      await doc.image('tests/images/orientation-6.jpeg', 40, 514.375, {
         height: 80,
         ignoreOrientation: true,
       });
@@ -116,7 +116,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-6.jpeg', 320, 514.375, {
+      await doc.image('tests/images/orientation-6.jpeg', 320, 514.375, {
         height: 80,
       });
 
@@ -124,7 +124,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-7.jpeg', 40, 608.4375, {
+      await doc.image('tests/images/orientation-7.jpeg', 40, 608.4375, {
         height: 80,
         ignoreOrientation: true,
       });
@@ -133,7 +133,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-7.jpeg', 320, 608.4375, {
+      await doc.image('tests/images/orientation-7.jpeg', 320, 608.4375, {
         height: 80,
       });
 
@@ -141,7 +141,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-8.jpeg', 40, 702.5, {
+      await doc.image('tests/images/orientation-8.jpeg', 40, 702.5, {
         height: 80,
         ignoreOrientation: true,
       });
@@ -150,14 +150,14 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-8.jpeg', 320, 702.5, {
+      await doc.image('tests/images/orientation-8.jpeg', 320, 702.5, {
         height: 80,
       });
     });
   });
 
-  test('orientation - with cover and alignment', function () {
-    return runDocTest(function (doc) {
+  test('orientation - with cover and alignment', async function () {
+    return runDocTest(async function (doc) {
       let options = {
         align: 'center',
         cover: [60, 60],
@@ -184,7 +184,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-1.jpeg', 40, 44.0625, {
+      await doc.image('tests/images/orientation-1.jpeg', 40, 44.0625, {
         ...options,
         ignoreOrientation: true,
       });
@@ -195,7 +195,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-1.jpeg', 320, 44.0625, options);
+      await doc.image('tests/images/orientation-1.jpeg', 320, 44.0625, options);
 
       doc.rect(320, 44.0625, 60, 60).stroke('red');
 
@@ -204,7 +204,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-2.jpeg', 40, 138.125, {
+      await doc.image('tests/images/orientation-2.jpeg', 40, 138.125, {
         ...options,
         ignoreOrientation: true,
       });
@@ -215,7 +215,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-2.jpeg', 320, 138.125, options);
+      await doc.image('tests/images/orientation-2.jpeg', 320, 138.125, options);
 
       doc.rect(320, 138.125, 60, 60).stroke('red');
 
@@ -224,7 +224,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-3.jpeg', 40, 232.1875, {
+      await doc.image('tests/images/orientation-3.jpeg', 40, 232.1875, {
         ...options,
         ignoreOrientation: true,
       });
@@ -235,7 +235,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-3.jpeg', 320, 232.1875, options);
+      await doc.image('tests/images/orientation-3.jpeg', 320, 232.1875, options);
 
       doc.rect(320, 232.1875, 60, 60).stroke('red');
 
@@ -244,7 +244,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-4.jpeg', 40, 326.25, {
+      await doc.image('tests/images/orientation-4.jpeg', 40, 326.25, {
         ...options,
         ignoreOrientation: true,
       });
@@ -255,7 +255,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-4.jpeg', 320, 326.25, options);
+      await doc.image('tests/images/orientation-4.jpeg', 320, 326.25, options);
 
       doc.rect(320, 326.25, 60, 60).stroke('red');
 
@@ -264,7 +264,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-5.jpeg', 40, 420.3125, {
+      await doc.image('tests/images/orientation-5.jpeg', 40, 420.3125, {
         ...options,
         ignoreOrientation: true,
       });
@@ -275,7 +275,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-5.jpeg', 320, 420.3125, options);
+      await doc.image('tests/images/orientation-5.jpeg', 320, 420.3125, options);
 
       doc.rect(320, 420.3125, 60, 60).stroke('red');
 
@@ -284,7 +284,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-6.jpeg', 40, 514.375, {
+      await doc.image('tests/images/orientation-6.jpeg', 40, 514.375, {
         ...options,
         ignoreOrientation: true,
       });
@@ -295,7 +295,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-6.jpeg', 320, 514.375, options);
+      await doc.image('tests/images/orientation-6.jpeg', 320, 514.375, options);
 
       doc.rect(320, 514.375, 60, 60).stroke('red');
 
@@ -304,7 +304,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-7.jpeg', 40, 608.4375, {
+      await doc.image('tests/images/orientation-7.jpeg', 40, 608.4375, {
         ...options,
         ignoreOrientation: true,
       });
@@ -315,7 +315,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-7.jpeg', 320, 608.4375, options);
+      await doc.image('tests/images/orientation-7.jpeg', 320, 608.4375, options);
 
       doc.rect(320, 608.4375, 60, 60).stroke('red');
 
@@ -324,7 +324,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-8.jpeg', 40, 702.5, {
+      await doc.image('tests/images/orientation-8.jpeg', 40, 702.5, {
         ...options,
         ignoreOrientation: true,
       });
@@ -335,14 +335,14 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-8.jpeg', 320, 702.5, options);
+      await doc.image('tests/images/orientation-8.jpeg', 320, 702.5, options);
 
       doc.rect(320, 702.5, 60, 60).stroke('red');
     });
   });
 
-  test('orientation - with fit and alignment', function () {
-    return runDocTest(function (doc) {
+  test('orientation - with fit and alignment', async function () {
+    return runDocTest(async function (doc) {
       let options = {
         align: 'center',
         fit: [80, 80],
@@ -369,7 +369,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-1.jpeg', 40, 44.0625, {
+      await doc.image('tests/images/orientation-1.jpeg', 40, 44.0625, {
         ...options,
         ignoreOrientation: true,
       });
@@ -380,7 +380,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-1.jpeg', 320, 44.0625, options);
+      await doc.image('tests/images/orientation-1.jpeg', 320, 44.0625, options);
 
       doc.rect(320, 44.0625, 80, 80).stroke('red');
 
@@ -389,7 +389,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-2.jpeg', 40, 138.125, {
+      await doc.image('tests/images/orientation-2.jpeg', 40, 138.125, {
         ...options,
         ignoreOrientation: true,
       });
@@ -400,7 +400,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-2.jpeg', 320, 138.125, options);
+      await doc.image('tests/images/orientation-2.jpeg', 320, 138.125, options);
 
       doc.rect(320, 138.125, 80, 80).stroke('red');
 
@@ -409,7 +409,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-3.jpeg', 40, 232.1875, {
+      await doc.image('tests/images/orientation-3.jpeg', 40, 232.1875, {
         ...options,
         ignoreOrientation: true,
       });
@@ -420,7 +420,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-3.jpeg', 320, 232.1875, options);
+      await doc.image('tests/images/orientation-3.jpeg', 320, 232.1875, options);
 
       doc.rect(320, 232.1875, 80, 80).stroke('red');
 
@@ -429,7 +429,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-4.jpeg', 40, 326.25, {
+      await doc.image('tests/images/orientation-4.jpeg', 40, 326.25, {
         ...options,
         ignoreOrientation: true,
       });
@@ -440,7 +440,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-4.jpeg', 320, 326.25, options);
+      await doc.image('tests/images/orientation-4.jpeg', 320, 326.25, options);
 
       doc.rect(320, 326.25, 80, 80).stroke('red');
 
@@ -449,7 +449,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-5.jpeg', 40, 420.3125, {
+      await doc.image('tests/images/orientation-5.jpeg', 40, 420.3125, {
         ...options,
         ignoreOrientation: true,
       });
@@ -460,7 +460,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-5.jpeg', 320, 420.3125, options);
+      await doc.image('tests/images/orientation-5.jpeg', 320, 420.3125, options);
 
       doc.rect(320, 420.3125, 80, 80).stroke('red');
 
@@ -469,7 +469,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-6.jpeg', 40, 514.375, {
+      await doc.image('tests/images/orientation-6.jpeg', 40, 514.375, {
         ...options,
         ignoreOrientation: true,
       });
@@ -480,7 +480,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-6.jpeg', 320, 514.375, options);
+      await doc.image('tests/images/orientation-6.jpeg', 320, 514.375, options);
 
       doc.rect(320, 514.375, 80, 80).stroke('red');
 
@@ -489,7 +489,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-7.jpeg', 40, 608.4375, {
+      await doc.image('tests/images/orientation-7.jpeg', 40, 608.4375, {
         ...options,
         ignoreOrientation: true,
       });
@@ -500,7 +500,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-7.jpeg', 320, 608.4375, options);
+      await doc.image('tests/images/orientation-7.jpeg', 320, 608.4375, options);
 
       doc.rect(320, 608.4375, 80, 80).stroke('red');
 
@@ -509,7 +509,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-8.jpeg', 40, 702.5, {
+      await doc.image('tests/images/orientation-8.jpeg', 40, 702.5, {
         ...options,
         ignoreOrientation: true,
       });
@@ -520,18 +520,18 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-8.jpeg', 320, 702.5, options);
+      await doc.image('tests/images/orientation-8.jpeg', 320, 702.5, options);
 
       doc.rect(320, 702.5, 80, 80).stroke('red');
     });
   });
 
-  test('orientation - document option', function () {
+  test('orientation - document option', async function () {
     let options = {
       ignoreOrientation: true,
     };
 
-    return runDocTest(options, function (doc) {
+    return runDocTest(options, async function (doc) {
       doc.font('tests/fonts/Roboto-Regular.ttf');
       doc.fill('black');
       doc.fillColor('black');
@@ -551,7 +551,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-1.jpeg', 40, 44.0625, {
+      await doc.image('tests/images/orientation-1.jpeg', 40, 44.0625, {
         height: 80,
       });
 
@@ -559,7 +559,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-1.jpeg', 320, 44.0625, {
+      await doc.image('tests/images/orientation-1.jpeg', 320, 44.0625, {
         height: 80,
         ignoreOrientation: false,
       });
@@ -568,7 +568,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-2.jpeg', 40, 138.125, {
+      await doc.image('tests/images/orientation-2.jpeg', 40, 138.125, {
         height: 80,
       });
 
@@ -576,7 +576,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-2.jpeg', 320, 138.125, {
+      await doc.image('tests/images/orientation-2.jpeg', 320, 138.125, {
         height: 80,
         ignoreOrientation: false,
       });
@@ -585,7 +585,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-3.jpeg', 40, 232.1875, {
+      await doc.image('tests/images/orientation-3.jpeg', 40, 232.1875, {
         height: 80,
       });
 
@@ -593,7 +593,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-3.jpeg', 320, 232.1875, {
+      await doc.image('tests/images/orientation-3.jpeg', 320, 232.1875, {
         height: 80,
         ignoreOrientation: false,
       });
@@ -602,7 +602,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-4.jpeg', 40, 326.25, {
+      await doc.image('tests/images/orientation-4.jpeg', 40, 326.25, {
         height: 80,
       });
 
@@ -610,7 +610,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-4.jpeg', 320, 326.25, {
+      await doc.image('tests/images/orientation-4.jpeg', 320, 326.25, {
         height: 80,
         ignoreOrientation: false,
       });
@@ -619,7 +619,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-5.jpeg', 40, 420.3125, {
+      await doc.image('tests/images/orientation-5.jpeg', 40, 420.3125, {
         height: 80,
       });
 
@@ -627,7 +627,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-5.jpeg', 320, 420.3125, {
+      await doc.image('tests/images/orientation-5.jpeg', 320, 420.3125, {
         height: 80,
         ignoreOrientation: false,
       });
@@ -636,7 +636,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-6.jpeg', 40, 514.375, {
+      await doc.image('tests/images/orientation-6.jpeg', 40, 514.375, {
         height: 80,
       });
 
@@ -644,7 +644,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-6.jpeg', 320, 514.375, {
+      await doc.image('tests/images/orientation-6.jpeg', 320, 514.375, {
         height: 80,
         ignoreOrientation: false,
       });
@@ -653,7 +653,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-7.jpeg', 40, 608.4375, {
+      await doc.image('tests/images/orientation-7.jpeg', 40, 608.4375, {
         height: 80,
       });
 
@@ -661,7 +661,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-7.jpeg', 320, 608.4375, {
+      await doc.image('tests/images/orientation-7.jpeg', 320, 608.4375, {
         height: 80,
         ignoreOrientation: false,
       });
@@ -670,7 +670,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-8.jpeg', 40, 702.5, {
+      await doc.image('tests/images/orientation-8.jpeg', 40, 702.5, {
         height: 80,
       });
 
@@ -678,7 +678,7 @@ describe('images', function () {
         lineBreak: false,
       });
 
-      doc.image('tests/images/orientation-8.jpeg', 320, 702.5, {
+      await doc.image('tests/images/orientation-8.jpeg', 320, 702.5, {
         height: 80,
         ignoreOrientation: false,
       });

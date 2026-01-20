@@ -4,10 +4,10 @@ import { jpeg as bee } from '../../images/bee';
 describe('pdfmake', function() {
   // somehow the generated pdf changes at each run
   test('absolute', function() {
-    return runDocTest(function(doc) {
+    return runDocTest(async function(doc) {
       const images = { bee: bee };
       doc.font('tests/fonts/Roboto-Italic.ttf');
-      doc.image(images['bee'], 100, 100, { width: 50, height: 50 });
+      await doc.image(images['bee'], 100, 100, { width: 50, height: 50 });
       doc.save();
       doc.restore();
       doc.image(images['bee'], 150, 150, { width: 50, height: 50 });
@@ -359,7 +359,7 @@ describe('pdfmake', function() {
       });
       doc.save();
       doc.restore();
-      doc.image(images['bee'], 100, 100, { width: 100, height: 100 });
+      await doc.image(images['bee'], 100, 100, { width: 100, height: 100 });
       doc.save();
       doc.restore();
       doc.lineWidth(1);

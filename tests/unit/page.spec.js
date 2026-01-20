@@ -1,7 +1,7 @@
 import PDFDocument from '../../lib/document';
 
 describe('page', function () {
-  test('cascade page options', function () {
+  test('cascade page options', async function () {
     const doc = new PDFDocument({
       autoFirstPage: false,
       bufferPages: true,

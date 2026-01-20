@@ -7,7 +7,7 @@ const robotoFontPath = path.join(__dirname, '../fonts/Roboto-Regular.ttf');
 const robotoFontData = fs.readFileSync(robotoFontPath);
 
 describe('PDF/A-1', () => {
-  test('metadata is present', () => {
+  test('metadata is present', async () => {
     let options = {
       autoFirstPage: false,
       pdfVersion: '1.4',
@@ -15,14 +15,14 @@ describe('PDF/A-1', () => {
     };
     let doc = new PDFDocument(options);
     const data = logData(doc);
-    doc.end();
+    await await doc.end();
     expect(data).toContainChunk([
       `11 0 obj`,
       `<<\n/length 892\n/Type /Metadata\n/Subtype /XML\n/Length 894\n>>`,
     ]);
   });
 
-  test('color profile is present', () => {
+  test('color profile is present', async () => {
     const expected = [
       `10 0 obj`,
       joinTokens(
@@ -42,11 +42,11 @@ describe('PDF/A-1', () => {
     };
     let doc = new PDFDocument(options);
     const data = logData(doc);
-    doc.end();
+    await await doc.end();
     expect(data).toContainChunk(expected);
   });
 
-  test('metadata contains pdfaid part and conformance', () => {
+  test('metadata contains pdfaid part and conformance', async () => {
     let options = {
       autoFirstPage: false,
       pdfVersion: '1.4',
@@ -54,14 +54,14 @@ describe('PDF/A-1', () => {
     };
     let doc = new PDFDocument(options);
     const data = logData(doc);
-    doc.end();
+    await await doc.end();
     let metadata = Buffer.from(data[27]).toString();
 
     expect(metadata).toContain('pdfaid:part>1');
     expect(metadata).toContain('pdfaid:conformance');
   });
 
-  test('metadata pdfaid conformance B', () => {
+  test('metadata pdfaid conformance B', async () => {
     let options = {
       autoFirstPage: false,
       pdfVersion: '1.4',
@@ -69,13 +69,13 @@ describe('PDF/A-1', () => {
     };
     let doc = new PDFDocument(options);
     const data = logData(doc);
-    doc.end();
+    await await doc.end();
     let metadata = Buffer.from(data[27]).toString();
 
     expect(metadata).toContain('pdfaid:conformance>B');
   });
 
-  test('metadata pdfaid conformance A', () => {
+  test('metadata pdfaid conformance A', async () => {
     let options = {
       autoFirstPage: false,
       pdfVersion: '1.4',
@@ -83,13 +83,13 @@ describe('PDF/A-1', () => {
     };
     let doc = new PDFDocument(options);
     const data = logData(doc);
-    doc.end();
+    await await doc.end();
     let metadata = Buffer.from(data[27]).toString();
 
     expect(metadata).toContain('pdfaid:conformance>A');
   });
 
-  test('font data contains CIDSet', () => {
+  test('font data contains CIDSet', async () => {
     let options = {
       autoFirstPage: false,
       pdfVersion: '1.4',
@@ -101,7 +101,7 @@ describe('PDF/A-1', () => {
     doc.registerFont('Roboto', robotoFontData);
     doc.font('Roboto');
     doc.text('Text');
-    doc.end();
+    await doc.end();
 
     let fontDescriptor = data.find((v) => {
       return v.includes('/Type /FontDescriptor');

@@ -37,9 +37,8 @@ function runDocTest(options, fn) {
     const buffers = [];
 
     (async () => {
-      await fn(doc);
-    })()
-      .then(() => {
+      try {
+        await fn(doc);
         doc.on('error', (err) => reject(err));
         doc.on('data', buffers.push.bind(buffers));
         doc.on('end', async () => {
@@ -58,9 +57,11 @@ function runDocTest(options, fn) {
             reject(err);
           }
         });
-        doc.end();
-      })
-      .catch((err) => reject(err));
+        await doc.end();
+      } catch (err) {
+        reject(err);
+      }
+    })();
   });
 }
 

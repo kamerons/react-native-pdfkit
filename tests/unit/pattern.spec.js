@@ -11,12 +11,12 @@ describe('Pattern', function () {
     });
   });
 
-  test('Uncolored tiling pattern', () => {
+  test('Uncolored tiling pattern', async () => {
     const docData = logData(document);
     const patternStream = '1 w 0 1 m 4 5 l s 2 0 m 5 3 l s';
     const binaryStream = Buffer.from(`${patternStream}\n`, 'binary');
     const pattern = document.pattern([1, 1, 4, 4], 3, 3, patternStream);
-    document.rect(0, 0, 100, 100).fill([pattern, 'blue']).end();
+    await document.rect(0, 0, 100, 100).fill([pattern, 'blue']).end();
 
     // empty resources
     expect(docData).toContainChunk(['10 0 obj', `<<\n>>`]);
@@ -78,7 +78,7 @@ f\n`,
     ]);
   });
 
-  test('Pattern naming', () => {
+  test('Pattern naming', async () => {
     const docData = logData(document);
     const pattern1 = document.pattern(
       [1, 1, 4, 4],
@@ -93,7 +93,7 @@ f\n`,
       '1 w 0 1 m 7 8 l s 5 0 m 8 3 l s',
     );
     document.rect(0, 0, 100, 100).fill([pattern1, 'blue']);
-    document.rect(0, 0, 100, 100).fill([pattern2, 'red']).end();
+    await document.rect(0, 0, 100, 100).fill([pattern2, 'red']).end();
 
     // patterns P1 and P2
     expect(docData).toContainChunk([

@@ -13,7 +13,7 @@ describe('virtual-fs', function () {
     fs.fileData = {};
   });
 
-  test('readFileSync', function () {
+  test('readFileSync', async function () {
     checkMissingFiles(['encoded', 'raw', 'binary']);
 
     fs.bindFileData({
@@ -24,7 +24,7 @@ describe('virtual-fs', function () {
     expect(base64Data).toEqual('QnVmZmVyIGNvbnRlbnQ=');
   });
 
-  test('writeFileSync', function () {
+  test('writeFileSync', async function () {
     checkMissingFiles(['encoded', 'raw', 'binary']);
 
     fs.writeFileSync(
@@ -46,7 +46,7 @@ describe('virtual-fs', function () {
     expect(binaryData.toJSON()).toEqual({ data: [4, 3, 1, 2], type: 'Buffer' });
   });
 
-  test('bindFileData', function () {
+  test('bindFileData', async function () {
     checkMissingFiles(['encoded', 'raw', 'binary']);
 
     fs.bindFileData({

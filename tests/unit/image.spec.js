@@ -12,10 +12,10 @@ describe('Image', function () {
     });
   });
 
-  test('y position should be updated', () => {
+  test('y position should be updated', async () => {
     const originalY = document.y;
     const imageHeight = 400;
-    document.image('./tests/images/bee.png');
+    await document.image('./tests/images/bee.png');
     expect(document.y).toBe(originalY + imageHeight);
   });
 });

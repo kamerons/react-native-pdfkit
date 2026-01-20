@@ -35,14 +35,15 @@ describe('EmbeddedFont', () => {
   });
 
   describe('emebed', () => {
-    test('sets BaseName based on font id and postscript name', () => {
+    test('sets BaseName based on font id and postscript name', async () => {
       const document = new PDFDocument();
       const font = PDFFontFactory.open(document, robotoFontData, undefined, 'F1099');
       const dictionary = {
-        end: () => {},
+        end: async () => {},
+        data: {},
       };
       font.dictionary = dictionary;
-      font.embed();
+      await font.embed();
 
       expect(dictionary.data.BaseFont).toBe('BAJJZZ+Roboto-Regular');
     });

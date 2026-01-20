@@ -22,7 +22,7 @@ describe('acroform', () => {
     });
   });
 
-  test('named JavaScript', () => {
+  test('named JavaScript', async () => {
     const expected = [
       '2 0 obj',
       // '<<\n/Dests <<\n/Names []\n>>\n/JavaScript <<\n/Names [\n(name1) <<\n/JS (my javascript goes here)\n/S /JavaScript\n>>\n]\n>>\n>>',
@@ -54,7 +54,7 @@ describe('acroform', () => {
     const docData = logData(doc);
     doc.addNamedJavaScript('name1', 'my javascript goes here');
     expect(docData.length).toBe(0);
-    doc.end();
+    await doc.end();
     expect(docData).toContainChunk(expected);
   });
 
@@ -278,7 +278,7 @@ describe('acroform', () => {
     expect(docData).toContainChunk(expected);
   });
 
-  test('field heirarchy', () => {
+  test('field heirarchy', async () => {
     const expected = [
       '13 0 obj',
       '<<\n/Parent 11 0 R\n/FT /Tx\n/T (leaf1)\n/Subtype /Widget\n/F 4\n/Type /Annot\n/Rect [10 742 210 782]\n/Border [0 0 0]\n/C [0 0 0]\n>>',
@@ -322,7 +322,7 @@ describe('acroform', () => {
       expect(docData[idx]).toBe(expected[idx]);
     }
 
-    doc.end();
+    await doc.end();
 
     for (let idx = 0; idx < docData.length; ++idx) {
       if (docData[idx] === expected2[0]) {

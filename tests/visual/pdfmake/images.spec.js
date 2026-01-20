@@ -3,7 +3,7 @@ import { jpeg as bee } from '../../images/bee';
 
 describe('pdfmake', function() {
   test('images', function() {
-    return runDocTest(function(doc) {
+    return runDocTest(async function(doc) {
       const images = { bee: bee };
       doc.font('tests/fonts/Roboto-Regular.ttf');
       doc.fill('black');
@@ -318,7 +318,7 @@ describe('pdfmake', function() {
       });
       doc.save();
       doc.restore();
-      doc.image('tests/images/sampleImage.jpg', 40, 68.125, {
+      await doc.image('tests/images/sampleImage.jpg', 40, 68.125, {
         width: 695,
         height: 310
       });
@@ -428,7 +428,7 @@ describe('pdfmake', function() {
       });
       doc.save();
       doc.restore();
-      doc.image('tests/images/sampleImage.jpg', 40, 392.1875, {
+      await doc.image('tests/images/sampleImage.jpg', 40, 392.1875, {
         width: 150,
         height: 66.90647482014388
       });
@@ -590,7 +590,7 @@ describe('pdfmake', function() {
       });
       doc.save();
       doc.restore();
-      doc.image('tests/images/sampleImage.jpg', 40, 473.1564748201439, {
+      await doc.image('tests/images/sampleImage.jpg', 40, 473.1564748201439, {
         width: 150,
         height: 150
       });
@@ -713,7 +713,7 @@ describe('pdfmake', function() {
       });
       doc.save();
       doc.restore();
-      doc.image('tests/images/sampleImage.jpg', 40, 637.2189748201439, {
+      await doc.image('tests/images/sampleImage.jpg', 40, 637.2189748201439, {
         width: 100,
         height: 44.60431654676259
       });
@@ -959,7 +959,7 @@ describe('pdfmake', function() {
       });
       doc.save();
       doc.restore();
-      doc.image(images['bee'], 40, 68.125, {
+      await doc.image(images['bee'], 40, 68.125, {
         width: 200,
         height: 195.59902200488997
       });
@@ -1134,7 +1134,7 @@ describe('pdfmake', function() {
       });
       doc.save();
       doc.restore();
-      doc.image(images['bee'], 40, 277.78652200489, {
+      await doc.image(images['bee'], 40, 277.78652200489, {
         width: 200,
         height: 195.59902200488997
       });

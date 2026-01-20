@@ -4,7 +4,7 @@ import { jpeg as bee } from '../../images/bee';
 describe('pdfmake', function() {
   // somehow the generated pdf changes at each run
   test('background', function() {
-    return runDocTest(function(doc) {
+    return runDocTest(async function(doc) {
       const images = { bee: bee };
 
       doc.font('tests/fonts/Roboto-Regular.ttf');
@@ -359,7 +359,7 @@ describe('pdfmake', function() {
       });
       doc.save();
       doc.restore();
-      doc.image(images['bee'], 0, 42.1875, {
+      await doc.image(images['bee'], 0, 42.1875, {
         width: 200,
         height: 195.59902200488997
       });
@@ -2197,7 +2197,7 @@ describe('pdfmake', function() {
       });
       doc.save();
       doc.restore();
-      doc.image(images['bee'], 0, 42.1875, {
+      await doc.image(images['bee'], 0, 42.1875, {
         width: 200,
         height: 195.59902200488997
       });

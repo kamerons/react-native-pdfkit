@@ -25,22 +25,22 @@ describe('PDFReference', () => {
     expect(ref.data).toBe(refData);
   });
 
-  test('written data of empty reference', () => {
+  test('written data of empty reference', async () => {
     const ref = new PDFReference(document, 1);
 
     const docData = logData(document);
-    ref.finalize();
+    await ref.finalize();
 
     expect(docData).toContainChunk(['1 0 obj', '<<\n>>', 'endobj']);
   });
 
-  test('written data of reference with uncompressed data', () => {
+  test('written data of reference with uncompressed data', async () => {
     const docData = logData(document);
     const chunk = Buffer.from('test');
     const ref = new PDFReference(document, 1);
     ref.compress = false;
     ref.write(chunk);
-    ref.finalize();
+    await ref.finalize();
     expect(docData).toContainChunk([
       '1 0 obj',
       `<<
@@ -53,14 +53,14 @@ describe('PDFReference', () => {
     ]);
   });
 
-  test('written data of reference with compressed data', () => {
+  test('written data of reference with compressed data', async () => {
     const docData = logData(document);
     const chunk = Buffer.from('test');
     const compressed = zlib.deflateSync(chunk);
     const ref = new PDFReference(document, 1);
     ref.write(chunk);
 
-    ref.finalize();
+    await ref.finalize();
     expect(docData).toContainChunk([
       '1 0 obj',
       `<<

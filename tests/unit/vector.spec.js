@@ -12,7 +12,7 @@ describe('Vector Graphics', () => {
   });
 
   describe('dash', () => {
-    test('with numeric length argument', () => {
+    test('with numeric length argument', async () => {
       const docData = logData(document);
       const vectorStream = Buffer.from(
         '1 0 0 -1 0 792 cm\n50 20 m\n[2 2] 0 d\nS\n',
@@ -20,7 +20,7 @@ describe('Vector Graphics', () => {
       );
 
       document.moveTo(50, 20).dash(2).stroke();
-      document.end();
+      await document.end();
 
       expect(docData).toContainChunk([
         `5 0 obj`,
@@ -34,7 +34,7 @@ describe('Vector Graphics', () => {
       ]);
     });
 
-    test('with array length argument', () => {
+    test('with array length argument', async () => {
       const docData = logData(document);
       const vectorStream = Buffer.from(
         '1 0 0 -1 0 792 cm\n50 20 m\n[1 2] 0 d\nS\n',
@@ -42,7 +42,7 @@ describe('Vector Graphics', () => {
       );
 
       document.moveTo(50, 20).dash([1, 2]).stroke();
-      document.end();
+      await document.end();
 
       expect(docData).toContainChunk([
         `5 0 obj`,
@@ -56,7 +56,7 @@ describe('Vector Graphics', () => {
       ]);
     });
 
-    test('with space option', () => {
+    test('with space option', async () => {
       const docData = logData(document);
       const vectorStream = Buffer.from(
         '1 0 0 -1 0 792 cm\n50 20 m\n[2 10] 0 d\nS\n',
@@ -64,7 +64,7 @@ describe('Vector Graphics', () => {
       );
 
       document.moveTo(50, 20).dash(2, { space: 10 }).stroke();
-      document.end();
+      await document.end();
 
       expect(docData).toContainChunk([
         `5 0 obj`,
@@ -78,7 +78,7 @@ describe('Vector Graphics', () => {
       ]);
     });
 
-    test('with phase option', () => {
+    test('with phase option', async () => {
       const docData = logData(document);
       const vectorStream = Buffer.from(
         '1 0 0 -1 0 792 cm\n50 20 m\n[2 2] 8 d\nS\n',
@@ -86,7 +86,7 @@ describe('Vector Graphics', () => {
       );
 
       document.moveTo(50, 20).dash(2, { phase: 8 }).stroke();
-      document.end();
+      await document.end();
 
       expect(docData).toContainChunk([
         `5 0 obj`,
@@ -154,7 +154,7 @@ describe('Vector Graphics', () => {
   });
 
   describe('translate', () => {
-    test('identity transform is ignored', () => {
+    test('identity transform is ignored', async () => {
       const docData = logData(document);
       const vectorStream = Buffer.from(
         `1 0 0 -1 0 792 cm\n1 0 0 1 0 0 cm\n`,
@@ -162,7 +162,7 @@ describe('Vector Graphics', () => {
       );
 
       document.translate(0, 0);
-      document.end();
+      await document.end();
 
       expect(docData).not.toContainChunk([
         `5 0 obj`,

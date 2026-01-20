@@ -6,6 +6,11 @@ import path from 'path';
 import { getFontRegistry } from '../../lib/font/font_registry';
 import { getIccRegistry } from '../../lib/icc_registry';
 
+// Ensure globalThis is available for pdfjs-dist webpack bundle
+if (typeof globalThis === 'undefined') {
+  global.globalThis = global;
+}
+
 expect.extend(toContainChunk);
 expect.extend(toContainText);
 expect.extend({ toMatchImageSnapshot });

@@ -6,27 +6,27 @@ import fs from 'fs';
 describe('PNGImage', () => {
   let document;
 
-  const createImage = (fileName) => {
+  const createImage = async (fileName) => {
     const img = new PNGImage(fs.readFileSync(fileName), 'I1');
     // noop data manipulation methods
-    img.loadIndexedAlphaChannel = () => {
+    img.loadIndexedAlphaChannel = async () => {
       if (img.image.transparency.indexed) {
         img.alphaChannel = {};
-        img.finalize();
+        await img.finalize();
       }
     };
-    img.splitAlphaChannel = () => {
+    img.splitAlphaChannel = async () => {
       if (img.image.hasAlphaChannel) {
         img.alphaChannel = {};
-        img.finalize();
+        await img.finalize();
       }
     };
-    img.decodeData = () => {
-      img.finalize();
+    img.decodeData = async () => {
+      await img.finalize();
     };
     const finalizeFn = img.finalize;
     jest.spyOn(img, 'finalize').mockImplementation(() => finalizeFn.call(img));
-    img.embed(document);
+    await img.embed(document);
     return img;
   };
 
@@ -34,7 +34,7 @@ describe('PNGImage', () => {
     document = new PDFDocument();
   });
 
-  test('RGB', () => {
+  test('RGB', async () => {
     // ImageWidth = 400
     // ImageHeight = 533
     // BitDepth = 8
@@ -43,7 +43,7 @@ describe('PNGImage', () => {
     // Filter = 0
     // Interlace = 0
 
-    const img = createImage('./examples/images/test2.png');
+    const img = await createImage('./examples/images/test2.png');
 
     expect(img.finalize).toBeCalledTimes(1);
 
@@ -67,7 +67,7 @@ describe('PNGImage', () => {
     });
   });
 
-  test('RGB white transparent', () => {
+  test('RGB white transparent', async () => {
     // ImageWidth = 32
     // ImageHeight = 32
     // BitDepth = 16
@@ -76,7 +76,7 @@ describe('PNGImage', () => {
     // Filter = 0
     // Interlace = 0
 
-    const img = createImage(
+    const img = await createImage(
       './tests/images/pngsuite-rgb-transparent-white.png',
     );
 
@@ -103,7 +103,7 @@ describe('PNGImage', () => {
     });
   });
 
-  test('RGB (8bit) with Alpha', () => {
+  test('RGB (8bit) with Alpha', async () => {
     // ImageWidth = 409
     // ImageHeight = 400
     // BitDepth = 8
@@ -112,7 +112,7 @@ describe('PNGImage', () => {
     // Filter = 0
     // Interlace = 0
 
-    const img = createImage('./tests/images/bee.png');
+    const img = await createImage('./tests/images/bee.png');
 
     expect(img.finalize).toBeCalledTimes(1);
 
@@ -141,7 +141,7 @@ describe('PNGImage', () => {
     });
   });
 
-  test('RGB (16bit) with Alpha', () => {
+  test('RGB (16bit) with Alpha', async () => {
     // ImageWidth = 175
     // ImageHeight = 65
     // BitDepth = 16
@@ -150,7 +150,7 @@ describe('PNGImage', () => {
     // Filter = 0
     // Interlace = 0
 
-    const img = createImage('./tests/images/straight.png');
+    const img = await createImage('./tests/images/straight.png');
 
     expect(img.finalize).toBeCalledTimes(1);
 
@@ -179,7 +179,7 @@ describe('PNGImage', () => {
     });
   });
 
-  test('Pallete', () => {
+  test('Pallete', async () => {
     // ImageWidth = 980
     // ImageHeight = 540
     // BitDepth = 8
@@ -188,7 +188,7 @@ describe('PNGImage', () => {
     // Filter = 0
     // Interlace = 0
 
-    const img = createImage('./examples/images/test3.png');
+    const img = await createImage('./examples/images/test3.png');
 
     expect(img.finalize).toBeCalledTimes(1);
 
@@ -212,7 +212,7 @@ describe('PNGImage', () => {
     });
   });
 
-  test('Pallete indexed transparency 8bit', () => {
+  test('Pallete indexed transparency 8bit', async () => {
     // ImageWidth = 32
     // ImageHeight = 32
     // BitDepth = 8
@@ -221,7 +221,7 @@ describe('PNGImage', () => {
     // Filter = 0
     // Interlace = 0
 
-    const img = createImage(
+    const img = await createImage(
       './tests/images/pngsuite-palette-transparent-white.png',
     );
 
@@ -260,7 +260,7 @@ describe('PNGImage', () => {
     });
   });
 
-  test('Pallete indexed transparency 1bit', () => {
+  test('Pallete indexed transparency 1bit', async () => {
     // ImageWidth = 290
     // ImageHeight = 50
     // BitDepth = 1
@@ -269,7 +269,7 @@ describe('PNGImage', () => {
     // Filter = 0
     // Interlace = 0
 
-    const img = createImage(
+    const img = await createImage(
       './tests/images/pallete-transparent-white-1bit.png',
     );
 
@@ -308,7 +308,7 @@ describe('PNGImage', () => {
     });
   });
 
-  test('Grayscale', () => {
+  test('Grayscale', async () => {
     // ImageWidth = 428
     // ImageHeight = 320
     // BitDepth = 8
@@ -317,7 +317,7 @@ describe('PNGImage', () => {
     // Filter = 0
     // Interlace = 0
 
-    const img = createImage('./tests/images/glassware-noisy.png');
+    const img = await createImage('./tests/images/glassware-noisy.png');
 
     expect(img.finalize).toBeCalledTimes(1);
 
@@ -334,7 +334,7 @@ describe('PNGImage', () => {
     });
   });
 
-  test('Grayscale black transparent', () => {
+  test('Grayscale black transparent', async () => {
     // ImageWidth = 32
     // ImageHeight = 32
     // BitDepth = 4
@@ -343,7 +343,7 @@ describe('PNGImage', () => {
     // Filter = 0
     // Interlace = 0
 
-    const img = createImage(
+    const img = await createImage(
       './tests/images/pngsuite-gray-transparent-black.png',
     );
 
@@ -370,7 +370,7 @@ describe('PNGImage', () => {
     });
   });
 
-  test('Grayscale white transparent', () => {
+  test('Grayscale white transparent', async () => {
     // ImageWidth = 32
     // ImageHeight = 32
     // BitDepth = 16
@@ -379,7 +379,7 @@ describe('PNGImage', () => {
     // Filter = 0
     // Interlace = 0
 
-    const img = createImage(
+    const img = await createImage(
       './tests/images/pngsuite-gray-transparent-white.png',
     );
 
@@ -406,7 +406,7 @@ describe('PNGImage', () => {
     });
   });
 
-  test('Grayscale with Alpha', () => {
+  test('Grayscale with Alpha', async () => {
     // ImageWidth = 112
     // ImageHeight = 112
     // BitDepth = 8
@@ -415,7 +415,7 @@ describe('PNGImage', () => {
     // Filter = 0
     // Interlace = 0
 
-    const img = createImage('./tests/images/fish.png');
+    const img = await createImage('./tests/images/fish.png');
 
     expect(img.finalize).toBeCalledTimes(1);
 
@@ -444,7 +444,7 @@ describe('PNGImage', () => {
     });
   });
 
-  test('Interlaced grayscale', () => {
+  test('Interlaced grayscale', async () => {
     // ImageWidth = 32
     // ImageHeight = 32
     // BitDepth = 8
@@ -453,7 +453,7 @@ describe('PNGImage', () => {
     // Filter = 0
     // Interlace = 1
 
-    const img = createImage('./tests/images/interlaced-grayscale-8bit.png');
+    const img = await createImage('./tests/images/interlaced-grayscale-8bit.png');
 
     expect(img.finalize).toBeCalledTimes(1);
 
@@ -477,7 +477,7 @@ describe('PNGImage', () => {
     });
   });
 
-  test('Interlaced pallete', () => {
+  test('Interlaced pallete', async () => {
     // ImageWidth = 32
     // ImageHeight = 32
     // BitDepth = 8
@@ -486,7 +486,7 @@ describe('PNGImage', () => {
     // Filter = 0
     // Interlace = 1
 
-    const img = createImage('./tests/images/interlaced-pallete-8bit.png');
+    const img = await createImage('./tests/images/interlaced-pallete-8bit.png');
 
     expect(img.finalize).toBeCalledTimes(1);
 
@@ -510,7 +510,7 @@ describe('PNGImage', () => {
     });
   });
 
-  test('Interlaced RGB (8bit)', () => {
+  test('Interlaced RGB (8bit)', async () => {
     // ImageWidth = 32
     // ImageHeight = 32
     // BitDepth = 8
@@ -519,7 +519,7 @@ describe('PNGImage', () => {
     // Filter = 0
     // Interlace = 1
 
-    const img = createImage('./tests/images/interlaced-rgb-8bit.png');
+    const img = await createImage('./tests/images/interlaced-rgb-8bit.png');
 
     expect(img.finalize).toBeCalledTimes(1);
 
@@ -543,7 +543,7 @@ describe('PNGImage', () => {
     });
   });
 
-  test('Interlaced RGB (16bit)', () => {
+  test('Interlaced RGB (16bit)', async () => {
     // ImageWidth = 32
     // ImageHeight = 32
     // BitDepth = 16
@@ -552,7 +552,7 @@ describe('PNGImage', () => {
     // Filter = 0
     // Interlace = 1
 
-    const img = createImage('./tests/images/interlaced-rgb-16bit.png');
+    const img = await createImage('./tests/images/interlaced-rgb-16bit.png');
 
     expect(img.finalize).toBeCalledTimes(1);
 
@@ -576,7 +576,7 @@ describe('PNGImage', () => {
     });
   });
 
-  test('Interlaced RGB with alpha', () => {
+  test('Interlaced RGB with alpha', async () => {
     // ImageWidth = 32
     // ImageHeight = 32
     // BitDepth = 8
@@ -585,7 +585,7 @@ describe('PNGImage', () => {
     // Filter = 0
     // Interlace = 1
 
-    const img = createImage('./tests/images/interlaced-rgb-alpha-8bit.png');
+    const img = await createImage('./tests/images/interlaced-rgb-alpha-8bit.png');
 
     expect(img.finalize).toBeCalledTimes(1);
 

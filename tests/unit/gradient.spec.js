@@ -10,12 +10,12 @@ describe('Gradient', function () {
     });
   });
 
-  test('Multiple stops', () => {
+  test('Multiple stops', async () => {
     const docData = logData(document);
     const gradient = document.linearGradient(0, 0, 300, 0);
     gradient.stop(0, 'green').stop(0.5, 'red').stop(1, 'green');
     document.rect(0, 0, 300, 300).fill(gradient);
-    document.end();
+    await document.end();
 
     expect(docData).toContainChunk([
       '8 0 obj',

@@ -19,16 +19,16 @@ describe('file', () => {
     });
   });
 
-  test('with name and type', () => {
+  test('with name and type', async () => {
     const docData = logData(document);
 
-    document.file(Buffer.from('example text'), {
+    await document.file(Buffer.from('example text'), {
       name: 'file.txt',
       type: 'text/plain',
       creationDate: date,
       modifiedDate: date,
     });
-    document.end();
+    await document.end();
 
     const md5 = createHash('md5').update('example text').digest('hex');
 
@@ -77,16 +77,16 @@ describe('file', () => {
     ]);
   });
 
-  test('with description', () => {
+  test('with description', async () => {
     const docData = logData(document);
 
-    document.file(Buffer.from('example text'), {
+    await document.file(Buffer.from('example text'), {
       name: 'file.txt',
       creationDate: date,
       modifiedDate: date,
       description: 'file description',
     });
-    document.end();
+    await document.end();
 
     const md5 = createHash('md5').update('example text').digest('hex');
 
@@ -120,16 +120,16 @@ describe('file', () => {
     ]);
   });
 
-  test('with hidden option', () => {
+  test('with hidden option', async () => {
     const docData = logData(document);
 
-    document.file(Buffer.from('example text'), {
+    await document.file(Buffer.from('example text'), {
       name: 'file.txt',
       creationDate: date,
       modifiedDate: date,
       hidden: true,
     });
-    document.end();
+    await document.end();
 
     const md5 = createHash('md5').update('example text').digest('hex');
 
@@ -160,20 +160,20 @@ describe('file', () => {
     ]);
   });
 
-  test('attach multiple files', () => {
+  test('attach multiple files', async () => {
     const docData = logData(document);
 
-    document.file(Buffer.from('example text'), {
+    await document.file(Buffer.from('example text'), {
       name: 'file1.txt',
       creationDate: date,
       modifiedDate: date,
     });
-    document.file(Buffer.from('example text'), {
+    await document.file(Buffer.from('example text'), {
       name: 'file2.txt',
       creationDate: date,
       modifiedDate: date,
     });
-    document.end();
+    await document.end();
 
     expect(docData).toContainChunk([
       `2 0 obj`,
@@ -192,20 +192,20 @@ describe('file', () => {
     ]);
   });
 
-  test('attach the same file multiple times', () => {
+  test('attach the same file multiple times', async () => {
     const docData = logData(document);
 
-    document.file(Buffer.from('example text'), {
+    await document.file(Buffer.from('example text'), {
       name: 'file1.txt',
       creationDate: date,
       modifiedDate: date,
     });
-    document.file(Buffer.from('example text'), {
+    await document.file(Buffer.from('example text'), {
       name: 'file1.txt',
       creationDate: new Date(date),
       modifiedDate: new Date(date),
     });
-    document.end();
+    await document.end();
 
     const numFiles = docData.filter(
       (str) =>
