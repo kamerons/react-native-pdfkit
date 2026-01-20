@@ -9,7 +9,6 @@ const external = [
   'fontkit',
   'events',
   'linebreak',
-  'png-js',
   'crypto-js',
   'saslprep'
 ];
