@@ -3,12 +3,16 @@ import { babel } from '@rollup/plugin-babel';
 import copy from 'rollup-plugin-copy';
 import json from '@rollup/plugin-json';
 import commonjs from '@rollup/plugin-commonjs';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import { resolve } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 const external = [
   'stream',
   'fs',
   'zlib',
-  'fontkit',
   'events',
   'linebreak',
   'crypto-js',
@@ -34,6 +38,17 @@ export default [
       interop: false
     },
     plugins: [
+      {
+        name: 'resolve-vendor-fontkit',
+        resolveId(id, importer) {
+          if (id === '../vendor/fontkit/index.js' || id.endsWith('/vendor/fontkit/index.js')) {
+            const resolved = resolve(__dirname, 'lib/vendor/fontkit/index.js');
+            return resolved;
+          }
+          return null;
+        }
+      },
+      nodeResolve(),
       json(),
       commonjs(),
       babel({
@@ -71,6 +86,17 @@ export default [
       sourcemap: true
     },
     plugins: [
+      {
+        name: 'resolve-vendor-fontkit',
+        resolveId(id, importer) {
+          if (id === '../vendor/fontkit/index.js' || id.endsWith('/vendor/fontkit/index.js')) {
+            const resolved = resolve(__dirname, 'lib/vendor/fontkit/index.js');
+            return resolved;
+          }
+          return null;
+        }
+      },
+      nodeResolve(),
       json(),
       commonjs(),
       babel({
