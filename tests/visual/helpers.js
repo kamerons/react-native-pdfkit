@@ -8,7 +8,7 @@ import { pdf2png } from './pdf2png.js';
 import { getFontRegistry } from '../../lib/font/font_registry';
 
 // Initialize adapters with Node.js implementations
-init({ fs, zlib, stream, Buffer });
+init({ fs, zlib, stream, Buffer, TextEncoder, TextDecoder });
 
 // Register common fonts used in visual tests
 const fontsDir = path.join(__dirname, '../fonts');

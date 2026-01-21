@@ -11,7 +11,7 @@ import { getFontRegistry } from '../../lib/font/font_registry';
 import { getIccRegistry } from '../../lib/icc_registry';
 
 // Initialize adapters with Node.js implementations
-init({ fs, zlib, stream, Buffer });
+init({ fs, zlib, stream, Buffer, TextEncoder, TextDecoder });
 
 // Ensure globalThis is available for pdfjs-dist webpack bundle
 if (typeof globalThis === 'undefined') {
