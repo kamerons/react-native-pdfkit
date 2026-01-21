@@ -6,12 +6,11 @@ import path from 'path';
 import zlib from 'zlib';
 import stream from 'stream';
 import { Buffer } from 'buffer';
-import { init } from '../../lib/document';
+// Initialize adapters BEFORE importing document to prevent class definition errors
+import { init as initAdapters } from '../../lib/adapters';
+initAdapters({ fs, zlib, stream, Buffer });
 import { getFontRegistry } from '../../lib/font/font_registry';
 import { getIccRegistry } from '../../lib/icc_registry';
-
-// Initialize adapters with Node.js implementations
-init({ fs, zlib, stream, Buffer });
 
 // Ensure globalThis is available for pdfjs-dist webpack bundle
 if (typeof globalThis === 'undefined') {
