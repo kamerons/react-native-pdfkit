@@ -88,6 +88,10 @@
       "default": "./js/pdfkit.js"
     }
   },
+  "files": [
+    "js",
+    "scripts/postinstall.js"
+  ],
   "browserify": {
     "transform": [
       "brfs"

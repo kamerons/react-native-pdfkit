@@ -16,6 +16,60 @@ const BUILD_FILES = [
   path.join(BUILD_DIR, 'virtual-fs.js'),
 ];
 
+function isConsumerInstall(pkgRoot) {
+  const parts = pkgRoot.split(path.sep);
+  const modulesIndex = parts.lastIndexOf('node_modules');
+  return modulesIndex !== -1 && parts[modulesIndex + 1] === 'pdfkit';
+}
+
+function isAlwaysPublished(name) {
+  const lower = name.toLowerCase();
+  return (
+    lower === 'package.json' ||
+    lower.startsWith('readme') ||
+    lower.startsWith('license') ||
+    lower.startsWith('licence') ||
+    lower.startsWith('changelog') ||
+    lower.startsWith('changes') ||
+    lower.startsWith('history')
+  );
+}
+
+function isPublishedEntry(name, files) {
+  return files.some(entry => entry === name || entry.startsWith(`${name}/`));
+}
+
+// Yarn 1 `file:` installs copy the whole checkout and ignore `files`.
+// Drop that extra tree once this copy is inside a consumer's node_modules.
+function stripConsumerInstall() {
+  const pkgRoot = path.join(__dirname, '..');
+  if (!isConsumerInstall(pkgRoot)) {
+    return;
+  }
+
+  const pkg = JSON.parse(fs.readFileSync(path.join(pkgRoot, 'package.json'), 'utf8'));
+  const files = Array.isArray(pkg.files) ? pkg.files : [];
+  const removed = [];
+
+  for (const name of fs.readdirSync(pkgRoot)) {
+    if (isAlwaysPublished(name) || isPublishedEntry(name, files)) {
+      continue;
+    }
+
+    const target = path.join(pkgRoot, name);
+    if (fs.lstatSync(target).isSymbolicLink()) {
+      fs.unlinkSync(target);
+    } else {
+      fs.rmSync(target, { recursive: true, force: true });
+    }
+    removed.push(name);
+  }
+
+  if (removed.length > 0) {
+    console.log(`Removed non-published files from installed pdfkit: ${removed.join(', ')}`);
+  }
+}
+
 function checkDependencies() {
   const rollupPath = path.join(__dirname, '..', 'node_modules', '.bin', 'rollup');
 
@@ -75,6 +129,8 @@ function runBuild() {
 }
 
 // Main execution
+stripConsumerInstall();
+
 if (buildFilesExist()) {
   console.log('Build files already exist, skipping build.');
   process.exit(0);
