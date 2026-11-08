@@ -1,4 +1,4 @@
-import pkg from './package.json';
+import { readFileSync } from 'node:fs';
 import { babel } from '@rollup/plugin-babel';
 import copy from 'rollup-plugin-copy';
 import json from '@rollup/plugin-json';
@@ -6,6 +6,10 @@ import commonjs from '@rollup/plugin-commonjs';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import { resolve } from 'path';
 import { fileURLToPath } from 'url';
+
+const pkg = JSON.parse(
+  readFileSync(new URL('./package.json', import.meta.url), 'utf8'),
+);
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
@@ -35,7 +39,8 @@ export default [
       file: pkg.main,
       format: 'cjs',
       sourcemap: true,
-      interop: false
+      exports: 'named',
+      interop: 'default'
     },
     plugins: [
       {

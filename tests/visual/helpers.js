@@ -7,6 +7,12 @@ import PDFDocument, { init } from '../../lib/document';
 import { pdf2png } from './pdf2png.js';
 import { getFontRegistry } from '../../lib/font/font_registry';
 
+// pdfjs-dist 6 only supports Node 22.13+ and 24+. Older CI jobs still run unit tests.
+function supportsPdfJs() {
+  const [major, minor] = process.versions.node.split('.').map(Number);
+  return major > 22 || (major === 22 && minor >= 13);
+}
+
 // Initialize adapters with Node.js implementations
 init({ fs, zlib, stream, Buffer, TextEncoder, TextDecoder });
 
@@ -36,6 +42,13 @@ function runDocTest(options, fn) {
   }
   if (!options.info) {
     options.info = {};
+  }
+
+  if (!supportsPdfJs()) {
+    console.warn(
+      `Skipping visual snapshot render: pdfjs-dist 6 requires Node.js >= 22.13 (current ${process.version}).`,
+    );
+    return Promise.resolve();
   }
 
   return new Promise((resolve, reject) => {
