@@ -1509,7 +1509,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/js@npm:9.39.5":
+"@eslint/js@npm:9.39.5, @eslint/js@npm:^9.39.5":
   version: 9.39.5
   resolution: "@eslint/js@npm:9.39.5"
   checksum: 10c0/49894e98ba313a7d3bfb1b20d55c0f9826be45a7db876fd84e533ac7f101b1d95b51cd22c6a6db3a45066b9c0d068c31b4a22fa0db8a6cc8744a25540efdb824
@@ -4182,7 +4182,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:9.39.5":
+"eslint@npm:^9.39.5":
   version: 9.39.5
   resolution: "eslint@npm:9.39.5"
   dependencies:
@@ -6806,7 +6806,7 @@ __metadata:
     "@babel/core": "npm:^7.29.13"
     "@babel/plugin-external-helpers": "npm:^7.25.9"
     "@babel/preset-env": "npm:^7.29.7"
-    "@eslint/js": "npm:9.39.5"
+    "@eslint/js": "npm:^9.39.5"
     "@napi-rs/canvas": "npm:^1.1.0"
     "@rollup/plugin-babel": "npm:^7.1.0"
     "@rollup/plugin-commonjs": "npm:^29.0.0"
@@ -6823,7 +6823,7 @@ __metadata:
     codemirror: "npm:~5.65.18"
     crypto-js: "npm:^4.2.0"
     dfa: "npm:^1.2.0"
-    eslint: "npm:9.39.5"
+    eslint: "npm:^9.39.5"
     gh-pages: "npm:^6.2.0"
     globals: "npm:^15.14.0"
     jest: "npm:^29.7.0"
